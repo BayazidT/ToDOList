@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f1f1f1;
+}
+.container {
+  position: relative;
+  width: 900px;
+  display: flex;
+  justify-content: space-around;
+}
+.card {
+  position: relative;
+  width: 550px;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 10px 10px 5px #aaaaaa;
+  transition: 0.5s;
+}
+.card h3 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #666;
+  text-align: center;
+}
+.Form {
+  width: 90%;
+  margin: 0 auto;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  font-size: 14px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.card-footer {
+  background-color: #fff;
+  height: 30px;
+  border-top: 0.5px solid #aaaaaa;
+}
+.fMenu {
+  list-style: none;
+  display: flex;
+}
+.fMenu li {
+  padding: 5px;
+  justify-content: space-between;
+}
+.fMenu li:first-child {
+  margin-right: 70px;
+  margin-left: 5px;
+  padding: 5px;
+  font-size: 12px;
+}
+.fMenu li:last-child {
+  margin-left: 70px;
+}
+.fMenu li a {
+  font-size: 12px;
+  text-decoration: none;
+  color: #444;
+}
+.fMenu li a:hover {
+  text-decoration: underline;
+  color: #666;
+}
+.checked {
+  text-decoration: line-through;
+}

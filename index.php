@@ -14,6 +14,14 @@ $db = new database();
          }
 
      }
+     if(isset($_GET['id'])){
+       $id = $_GET['id'];
+
+        if($id != null){
+            $contrlr->updateItem($id);
+        }
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +31,8 @@ $db = new database();
         <title>ToDoList</title>
       
         <link rel="stylesheet" href="style.css">
-      
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       
     </head>
     <body>
         <div class="container">
@@ -37,36 +46,66 @@ $db = new database();
                         <input type="hidden" name="submitted">
                       </form>
                        <!--form ends
-                       
-                      
                       -->
+</div>
+<div>
                       <?php
+
+
+
+
+
                     $items = $contrlr->retrieveAllItem();
                     if($items){
                         while($result = $items->fetch_assoc()){
+                            $id = $result['id'];
                             $title = $result['title'];
+                            $ckd = $result['completed'];
                             ?>
-                             <p class="checked"><input type="checkbox"
+                          
+                            <p <?php
+                        if($ckd == 'YES'){
+                            echo 'style="text-decoration: line-through;color:#555;"';
+                        }
+                        ?> ><input type="checkbox" style="margin:10px;font-size:18px" onclick="userCompletedTask(<?php echo $id; ?>);"
+                        <?php
+                        if($ckd == 'YES'){
+                            echo 'checked';
+                        }
+                        ?>
                          /><?php echo $title; ?></p>
-
+                          
+                            
                             <?php
                          
                         }
-                    }
-                      
-                      ?>
-                     
-                   </div>
+                        ?>
+                         </div>
                    <div class="card-footer">
                     <ul class="fMenu">
-                        <li id="all">4 Items</li>
+                        <li id="bt">4 Items</li>
                         <li id="all">All</li>
                         <li id="completed">Active</li>
                         <li id="clear">Completed</li>
                         <li id="target"><a href="#">Clear completed</a></li>
                     </ul>
                  </div>
+
+                        <?php
+                    }else{
+
+                    }
+                      
+                      ?>
+                  
             </div>
         </div>
     </body>
 </html>
+<script>
+function userCompletedTask(id) {
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("GET","index.php?id="+id,true);
+xmlhttp.send();
+}
+</script>

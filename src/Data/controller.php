@@ -12,6 +12,11 @@ class controller{
                 $iQuery = "INSERT INTO td_list(title,completed) Values('$value', '$checked')";
                 $qResult = $this->db->insert($iQuery);
             }
+            public function updateItem($id){
+                $checked = 'YES';
+                $uQuery = "UPDATE td_list SET completed = '$checked' WHERE id = '$id'";
+                $qResult = $this->db->insert($uQuery);
+            }
             public function retrieveAllItem(){
                 $sQuery = "SELECT * FROM td_list";
                 $qResult = $this->db->select($sQuery);

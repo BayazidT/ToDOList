@@ -33,6 +33,17 @@ namespace MyApp\Data;
 			}
 		
 		}
+		//Update
+		public function update($query){
+			$update_row = $this->link->query($query) or die($this->link->error.__LINE__);
+			if($update_row){
+				return $update_row;
+				exit();
+			}else{
+				 die("Error!!(".$this->link->errno.")".$this->link->error);
+			}
+		
+		}
 		//Retriving values from databse..
 		public function select($query){
 			$result= $this->link->query($query) or die($this->link->error.__LINE__);
@@ -41,6 +52,17 @@ namespace MyApp\Data;
 			}else{
 				return false;
 			}
+		}
+
+		public function delete($query){
+			$delete_row = $this->link->query($query) or die($this->link->error.__LINE__);
+			if($delete_row){
+				return $delete_row;
+				exit();
+			}else{
+				 die("Error!!(".$this->link->errno.")".$this->link->error);
+			}
+		
 		}
 	
         

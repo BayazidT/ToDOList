@@ -12,16 +12,26 @@ $db = new database();
          if($value != null){
              $contrlr->insertItem($value);
          }
-
      }
+     if(isset($_POST['updateText'])){
+        $value = $_POST['title'];
+        $id = $_GET['updateId'];
+        if($value != null){
+            $contrlr->updateItemText($id,$value);
+        }
+    }
      if(isset($_GET['id'])){
        $id = $_GET['id'];
-
         if($id != null){
             $contrlr->updateItem($id);
         }
-
     }
+    if(isset($_GET['action']) && $_GET['action'] == 'deleteCompleted'){
+             $contrlr->deletedCompleted();
+     }
+
+
+     
 ?>
 
 <!DOCTYPE html>
@@ -31,14 +41,16 @@ $db = new database();
         <title>ToDoList</title>
       
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
        
     </head>
     <body>
+    
         <div class="container">
-           
+          
             <div class="card">
-                   
+            <h2 class="text-center">ToDos</h2>
                    <div class="Form">
                      <!-- form starts-->
                      <form action="index.php" method="POST">
@@ -50,53 +62,61 @@ $db = new database();
 </div>
 <div>
                       <?php
+                       $counter = 0;
+                      if(isset($_GET['action']) && $_GET['action'] == 'activeItem'){
+                        $items =  $contrlr->activeItem();
+                    }else if(isset($_GET['action']) && $_GET['action'] == 'completedItem'){
+                        $items = $contrlr->completedItem();
+                    }else{
+                        $items = $contrlr->retrieveAllItem();
+                    }
 
-
-
-
-
-                    $items = $contrlr->retrieveAllItem();
                     if($items){
+                       
                         while($result = $items->fetch_assoc()){
                             $id = $result['id'];
                             $title = $result['title'];
                             $ckd = $result['completed'];
-                            ?>
-                          
-                            <p <?php
+                            $counter++;
                         if($ckd == 'YES'){
-                            echo 'style="text-decoration: line-through;color:#555;"';
-                        }
-                        ?> ><input type="checkbox" style="margin:10px;font-size:18px" onclick="userCompletedTask(<?php echo $id; ?>);"
-                        <?php
-                        if($ckd == 'YES'){
-                            echo 'checked';
-                        }
                         ?>
-                         /><?php echo $title; ?></p>
-                          
+                             <input type="checkbox" style="margin:10px;font-size:18px"
+                       checked
+                         /><span style="text-decoration:line-through;"><?php echo $title; ?></span><br>
+                         <?php
+                        }else{
+                            ?>
+                            <form action="index.php?updateId=<?php echo $id; ?>" method="POST">
+                            <input type="checkbox" style="margin-left:10px;font-size:18px" onclick="userCompletedTask(<?php echo $id; ?>);"
+                         /><span style=""> <input type="text" class="form-control"  style="border:none;width:500px" value="<?php echo $title; ?>" name="title">
+                      
+                        </span>  
+                        <input type="hidden" name="updateText">
+                    
+                    </form>
                             
                             <?php
+                        }
                          
                         }
-                        ?>
-                         </div>
-                   <div class="card-footer">
-                    <ul class="fMenu">
-                        <li id="bt">4 Items</li>
-                        <li id="all">All</li>
-                        <li id="completed">Active</li>
-                        <li id="clear">Completed</li>
-                        <li id="target"><a href="#">Clear completed</a></li>
-                    </ul>
-                 </div>
-
-                        <?php
+                       
                     }else{
-
+                        
                     }
-                      
-                      ?>
+                    ?>
+                    </div>
+              <div class="card-footer">
+               <ul class="fMenu">
+                   <li id="bt"><?php if($counter){
+                       echo $counter." Items ";
+                   }  ?> </li>
+                   <li ><a href="?action=allItem">All</a></li>
+                   <li ><a href="?action=activeItem">Active</a></li>
+                   <li ><a href="?action=completedItem">Completed</a></li>
+                   <li ><a href="?action=deleteCompleted">Clear completed</a></li>
+               </ul>
+            </div>
+
                   
             </div>
         </div>
@@ -108,4 +128,7 @@ var xmlhttp = new XMLHttpRequest();
 xmlhttp.open("GET","index.php?id="+id,true);
 xmlhttp.send();
 }
+
+//
+
 </script>
